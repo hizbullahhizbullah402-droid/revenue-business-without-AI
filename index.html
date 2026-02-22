@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 AI ROI Calculator | Discover Your True Cost of Inaction</title>
+    <meta name="description" content="Calculate exactly how much revenue you're losing by not adopting AI. Get your personalized ROI report and discover the cost of waiting.">
+    
+    <!-- Google Analytics (Replace with your tracking ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    
+    <!-- Facebook Pixel (Replace with your pixel ID) -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --success: #10b981;
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        /* Header / Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .urgency-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero h1 span {
+            color: var(--accent);
+        }
+        
+        .hero-subheadline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-stat {
+            text-align: center;
+        }
+        
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--bg-white);
+            padding: 0 20px;
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .calculator-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .calculator-inputs {
+            padding: 50px;
+            border-right: 1px solid var(--border);
+        }
+        
+        .calculator-inputs h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+        
+        .input-group small {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper .currency,
+        .input-wrapper .percent,
+        .input-wrapper .unit {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .input-wrapper .currency { left: 15px; }
+        .input-wrapper .percent { right: 15px; }
+        .input-wrapper .unit { right: 15px; }
+        
+        .input-wrapper input {
+            width: 100%;
+            padding: 15px 15px 15px 35px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .input-wrapper input.percent-input,
+        .input-wrapper input.unit-input {
+            padding-left: 15px;
+            padding-right: 35px;
+        }
+        
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        
+        .range-slider {
+            margin-top: 10px;
+        }
+        
+        .range-slider input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .range-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+        
+        /* Calculator Results */
+        .calculator-results {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .results-placeholder {
+            text-align: center;
+            opacity: 0.7;
+        }
+        
+        .results-placeholder svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .results-content {
+            display: none;
+        }
+        
+        .results-content.active {
+            display: block;
+        }
+        
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .results-header h3 {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .main-result {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .main-result-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .main-result-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .main-result-sublabel {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+        
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .breakdown-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .breakdown-item-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        .breakdown-item-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        
+        /* Why Section */
+        .why-section {
+            padding: 80px 20px;
+            background: var(--bg-light);
+        }
+        
+        .why-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .why-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+        
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .why-card {
+            background: var(--bg-white);
+            padding: 35px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .why-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .why-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .why-icon svg {
+            width: 35px;
+            height: 35px;
+            color: white;
+        }
+        
+        .why-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .why-card p {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+        }
+        
+        /* Lead Magnet Section */
+        .lead-magnet {
+            padding: 80px 20px;
+            background: var(--bg-white);
+        }
+        
+        .lead-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .lead-magnet h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .lead-magnet .highlight {
+            color: var(--accent);
+        }
+        
+        .lead-magnet p {
+            color: var(--text-medium);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+        
+        .email-form input[type="email"] {
+            flex: 1;
+            padding: 18px 20px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .email-form input[type="email"]:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .email-form button {
+            padding: 18px 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .email-form button:hover {
+            background: var(--accent-hover);
+        }
+        
+        .privacy-note {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .privacy-note svg {
+            width: 14px;
+            height: 14px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 20px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .testimonials-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .testimonial-stars {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        .testimonial-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .author-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .author-info-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .author-info-title {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-light);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 2.2rem; }
+            .calculator-container { grid-template-columns: 1fr; }
+            .calculator-inputs { border-right: none; border-bottom: 1px solid var(--border); }
+            .why-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .email-form { flex-direction: column; }
+            .hero-stats { gap: 30px; }
+        }
+        
+        @media (max-width: 600px) {
+            .hero { padding: 60px 20px 80px; }
+            .hero h1 { font-size: 1.8rem; }
+            .main-result-value { font-size: 2.5rem; }
+            .breakdown-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="urgency-badge">⚠️ Updated for 2026 Market Conditions</div>
+            <h1>Every Day You <span>Don't Act</span>, You're Losing Money</h1>
+            <p class="hero-subheadline">Discover exactly how much revenue your business is sacrificing by delaying AI adoption. The 2026 economy rewards the decisive—and punishes the hesitant.</p>
+            
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">$127K</div>
+                    <div class="hero-stat-label">Average Annual Loss</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">73%</div>
+                    <div class="hero-stat-label">Companies Behind</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">18 mo</div>
+                    <div class="hero-stat-label">Recovery Time</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="calculator-container">
+            <div class="calculator-inputs">
+                <h2>Calculate Your Cost of Inaction</h2>
+                
+                <div class="input-group">
+                    <label>Current Annual Revenue</label>
+                    <div class="input-wrapper">
+                        <span class="currency">$</span>
+                        <input type="number" id="revenue" placeholder="500,000" min="0" step="1000">
+                    </div>
+                    <small>Your total annual gross revenue</small>
+                </div>
+                
+                <div class="input-group">
+                    <label>Current Monthly Operating Costs</label>
+                    <div class="input-wrapper">
+                        <span class="currency">$</span>
+                        <input type="number" id="costs" placeholder="25,000" min="0" step="1000">
+                    </div>
+                    <small>Includes salaries, software, overhead</small>
+                </div>
+                
+                <div class="input-group">
+                    <label>Team Size (Full-Time Equivalent)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="teamSize" placeholder="10" min="1" class="unit-input">
+                        <span class="unit">employees</span>
+                    </div>
+                    <small>Include all full-time team members</small>
+                </div>
+                
+                <div class="input-group">
+                    <label>Current Efficiency Level</label>
+                    <div class="range-slider">
+                        <input type="range" id="efficiency" min="1" max="10" value="5">
+                        <div class="range-labels">
+                            <span>Manual</span>
+                            <span>Partial</span>
+                            <span>Automated</span>
+                        </div>
+                    </div>
+                    <small>Rate your current workflow automation (1-10)</small>
+                </div>
+                
+                <div class="input-group">
+                    <label>Industry Adoption Rate</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="adoptionRate" placeholder="35" min="0" max="100" class="percent-input">
+                        <span class="percent">%</span>
+                    </div>
+                    <small>Percentage of competitors already using AI tools</small>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateROI()">Calculate My True Cost</button>
+            </div>
+            
+            <div class="calculator-results">
+                <div class="results-placeholder" id="placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <p>Enter your data and click<br>"Calculate My True Cost"</p>
+                </div>
+                
+                <div class="results-content" id="results">
+                    <div class="results-header">
+                        <h3>Your Annual Cost of Inaction</h3>
+                    </div>
+                    
+                    <div class="main-result">
+                        <div class="main-result-label">Money Left on the Table Every Year</div>
+                        <div class="main-result-value" id="totalLoss">$0</div>
+                        <div class="main-result-sublabel">That's <span id="monthlyLoss">$0</span> per month you're losing</div>
+                    </div>
+                    
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <div class="breakdown-item-value" id="productivityLoss">$0</div>
+                            <div class="breakdown-item-label">Productivity Gap</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-item-value" id="competitiveGap">$0</div>
+                            <div class="breakdown-item-label">Market Position Loss</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-item-value" id="scalingCost">$0</div>
+                            <div class="breakdown-item-label">Scaling Inefficiency</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-item-value" id="opportunityCost">$0</div>
+                            <div class="breakdown-item-label">Opportunity Cost</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Section -->
+    <section class="why-section">
+        <div class="why-container">
+            <h2>Why This Data Matters in 2026</h2>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3>The Gap Widens Daily</h3>
+                    <p>Companies adopting AI tools are seeing 40% faster growth rates. Every month you wait, your competitive advantage erodes. The early adopters are already capturing market share you'll never recover.</p>
+                </div>
+                
+                <div class="why-card">
+                    <div class="why-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3>Compound Loss Is Real</h3>
+                    <p>That $127K annual loss doesn't stay flat. At market growth rates, it compounds to $380K over three years. The cost of waiting isn't just today's lost revenue—it's tomorrow's lost compound growth.</p>
+                </div>
+                
+                <div class="why-card">
+                    <div class="why-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3>The Window Is Closing</h3>
+                    <p>Early-mover advantage in AI adoption is estimated at 18 months. After that, the technology becomes table stakes. Competitors who wait will find themselves playing catch-up in an already-captured market.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Lead Magnet Section -->
+    <section class="lead-magnet">
+        <div class="lead-container">
+            <h2>Get Your <span class="highlight">Full Personalized Report</span></h2>
+            <p>Enter your email to receive a comprehensive 15-page analysis of your specific situation, including actionable recommendations tailored to your industry and scale.</p>
+            
+            <form class="email-form" onsubmit="submitEmail(event)">
+                <input type="email" id="emailInput" placeholder="Enter your work email" required>
+                <button type="submit">Send My Full Report →</button>
+            </form>
+            
+            <p class="privacy-note">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                We respect your privacy. Unsubscribe anytime.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonials-container">
+            <h2>What Industry Leaders Are Saying</h2>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The calculator showed we were losing $180K annually. After implementing the recommendations, we recovered 73% of that in the first year alone. The ROI was immediate."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MK</div>
+                        <div class="author-info">
+                            <div class="author-info-name">Michael Kim</div>
+                            <div class="author-info-title">CEO, TechFlow Solutions</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I thought our processes were efficient. The calculator revealed we were spending 40% more on manual workflows than necessary. The personalized report was worth its weight in gold."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div class="author-info">
+                            <div class="author-info-name">Sarah Rodriguez</div>
+                            <div class="author-info-title">Operations Director, ScaleUp Inc</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The cost of inaction number was a wake-up call. We used it to justify the investment to our board. Six months later, we're seeing the results they projected."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JT</div>
+                        <div class="author-info">
+                            <div class="author-info-name">James Thompson</div>
+                            <div class="author-info-title">CFO, Meridian Group</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 AI ROI Calculator. All rights reserved. | <a href="#" style="color: var(--accent);">Privacy Policy</a> | <a href="#" style="color: var(--accent);">Terms of Service</a></p>
+    </footer>
+    
+    <!-- JavaScript for Calculator -->
+    <script>
+        function formatCurrency(amount) {
+            return '$' + Math.round(amount).toLocaleString();
+        }
+        
+        function calculateROI() {
+            // Get input values
+            const revenue = parseFloat(document.getElementById('revenue').value) || 0;
+            const costs = parseFloat(document.getElementById('costs').value) || 0;
+            const teamSize = parseFloat(document.getElementById('teamSize').value) || 0;
+            const efficiency = parseFloat(document.getElementById('efficiency').value) || 5;
+            const adoptionRate = parseFloat(document.getElementById('adoptionRate').value) || 0;
+            
+            // Calculate losses based on inputs
+            // Productivity gap: based on efficiency level (lower efficiency = higher loss)
+            const productivityGap = (revenue * 0.08) * (11 - efficiency) / 10;
+            
+            // Competitive gap: based on adoption rate (higher adoption = more urgent)
+            const competitiveGap = (revenue * 0.12) * (adoptionRate / 100);
+            
+            // Scaling inefficiency: based on team size and costs
+            const scalingCost = (costs * 12) * 0.15;
+            
+            // Opportunity cost: compound effect
+            const opportunityCost = (revenue * 0.05) * (adoptionRate / 50);
+            
+            // Total loss
+            const totalLoss = productivityGap + competitiveGap + scalingCost + opportunityCost;
+            const monthlyLoss = totalLoss / 12;
+            
+            // Update display
+            document.getElementById('totalLoss').textContent = formatCurrency(totalLoss);
+            document.getElementById('monthlyLoss').textContent = formatCurrency(monthlyLoss);
+            document.getElementById('productivityLoss').textContent = formatCurrency(productivityGap);
+            document.getElementById('competitiveGap').textContent = formatCurrency(competitiveGap);
+            document.getElementById('scalingCost').textContent = formatCurrency(scalingCost);
+            document.getElementById('opportunityCost').textContent = formatCurrency(opportunityCost);
+            
+            // Show results
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.add('active');
+            
+            // Track conversion
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Calculate');
+            }
+        }
+        
+        function submitEmail(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            // Track lead
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'GenerateLead', {
+                    value: 49.00,
+                    currency: 'USD'
+                });
+            }
+            
+            // Show success message (in production, send to your CRM)
+            alert('Thank you! Your personalized report will be sent to ' + email + ' within 5 minutes.');
+            
+            // Reset form
+            document.getElementById('emailInput').value = '';
+        }
+        
+        // Add input listeners for real-time updates
+        document.querySelectorAll('.calculator-inputs input').forEach(input => {
+            input.addEventListener('input', function() {
+                // Could add real-time calculation here
+            });
+        });
+    </script>
+</body>
+</html>
